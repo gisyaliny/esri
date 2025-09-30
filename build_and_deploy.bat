@@ -1,43 +1,36 @@
 @echo off
-setlocal ENABLEEXTENSIONS
+setlocal EnableExtensions
+pushd "%~dp0"
 
-REM Change to the directory of this script (repo root)
-cd /d "%~dp0"
+REM (Optional) auto-activate a local venv if it exists
+if exist ".venv\Scripts\activate.bat" call ".venv\Scripts\activate.bat"
 
-echo.
-echo === ESRI Web GIS Hub: Build and Deploy ===
-echo.
-
-REM Check for required commands
-where jb >nul 2>nul
-if errorlevel 1 (
-  echo [ERROR] 'jb' (Jupyter Book) not found in PATH.
-  echo         Install with:  pip install -r requirements.txt  (or)  pip install jupyter-book
-  exit /b 1
-)
-
-where ghp-import >nul 2>nul
-if errorlevel 1 (
-  echo [ERROR] 'ghp-import' not found in PATH.
-  echo         Install with:  pip install ghp-import
-  exit /b 1
-)
-
-echo [1/2] Building Jupyter Book...
+echo [1/2] jb build .
 jb build .
-if errorlevel 1 goto :error
-
-echo [2/2] Deploying to GitHub Pages (gh-pages)...
-ghp-import -n -p -f _build/html
-if errorlevel 1 goto :error
+if errorlevel 1 (
+  echo.
+  echo [FAILED] jb build returned %errorlevel%.
+  echo.
+  goto :PAUSE
+)
 
 echo.
-echo [OK] Build and deploy completed successfully.
-exit /b 0
+echo [2/2] ghp-import -n -p -f _build\html
+ghp-import -n -p -f _build\html
+if errorlevel 1 (
+  echo.
+  echo [FAILED] ghp-import returned %errorlevel%.
+  echo.
+  goto :PAUSE
+)
 
-:error
 echo.
-echo [FAILED] Build or deploy step failed with exit code %errorlevel%.
-exit /b %errorlevel%
+echo [OK] Done.
 
+:PAUSE
+echo.
+echo Press any key to close...
+pause >nul
 
+popd
+endlocal
