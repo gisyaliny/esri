@@ -1,0 +1,21 @@
+# Table of contents
+# Learn more at https://jupyterbook.org/customize/toc.html
+
+format: jb-book
+root: index
+
+parts:
+  - caption: CSS
+    numbered: true
+    chapters:
+      - file: docs/CSS/01-get-start
+      - file: docs/CSS/02-CSS-Box
+      - file: docs/CSS/03-css-layout
+      - file: docs/CSS/04-css-selectors
+  - caption: JavaScript API
+    numbered: true
+    maxdepth: 2
+    chapters:
+      - file: docs/JS/01-intro
+      - file: docs/JS/03-loop-and-logic
+      - file: docs/JS/02-Arrays-and-Object
