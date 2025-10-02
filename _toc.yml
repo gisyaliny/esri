@@ -17,5 +17,5 @@ parts:
     maxdepth: 2
     chapters:
       - file: docs/JS/01-intro
-      - file: docs/JS/03-loop-and-logic
+      - file: docs/JS/02-selection
       - file: docs/JS/02-Arrays-and-Object
